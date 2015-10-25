@@ -11,9 +11,9 @@ namespace GW2_Win10.Pages
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage
+    public sealed partial class LoginPage
     {
-        public MainPage()
+        public LoginPage()
         {
             InitializeComponent();
         }
@@ -26,8 +26,7 @@ namespace GW2_Win10.Pages
             try
             {
                 await App.Current.State.LogIn(ApiKey.Text);
-                Frame.Navigate(typeof(HomePage));
-                Frame.BackStack.Clear();
+                Frame.GoBack();
             }
             catch (ApiException)
             {
@@ -47,11 +46,6 @@ namespace GW2_Win10.Pages
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
             App.Current.State.Load();
-
-            if (App.Current.State.Session == null) return;
-
-            Frame.Navigate(typeof(HomePage));
-            Frame.BackStack.Clear();
         }
     }
 }

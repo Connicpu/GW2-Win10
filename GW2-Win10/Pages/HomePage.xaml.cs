@@ -13,44 +13,9 @@ namespace GW2_Win10.Pages
     /// </summary>
     public sealed partial class HomePage
     {
-        public Account Account { get; private set; }
-        public ObservableCollection<Character> Characters { get; private set; } 
-
         public HomePage()
         {
             InitializeComponent();
-        }
-
-        private async void OnLoaded(object sender, RoutedEventArgs e)
-        {
-            var session = App.Current.State.Session;
-            if (session == null)
-            {
-                Frame.Navigate(typeof(MainPage));
-                return;
-            }
-
-            // Setup the initial objects
-            Account = await session.Retrieve<Account>();
-            Characters = new ObservableCollection<Character>();
-            DataContext = this;
-
-            // Load in the characters (in parallel)
-            var loads = (
-                from name in await session.Retrieve<Characters>()
-                select session.Retrieve<Character>(new {id = name})
-                ).ToList();
-            foreach (var load in loads)
-            {
-                Characters.Add(await load);
-            }
-        }
-
-        private void LogOut(object sender, RoutedEventArgs e)
-        {
-            App.Current.State.LogOut();
-            Frame.Navigate(typeof(MainPage));
-            Frame.BackStack.Clear();
         }
     }
 }

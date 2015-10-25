@@ -16,18 +16,25 @@ namespace GW2_Win10.ViewModels
 
     public class AccountPartViewModel : ViewModelBase
     {
-        AccountService _service;
+        AppState _appState;
+        string newKey;
 
         public AccountPartViewModel()
         {
             if (!Windows.ApplicationModel.DesignMode.DesignModeEnabled)
-                _service = AccountService.Instance;
+                _appState = App.Current.State;
+            newKey = _appState?.Session?.ApiKey;
         }
 
-        public string APIKey
+        public string ApiKey
         {
-            get { return _service.APIKey; }
-            set { _service.APIKey = value; RaisePropertyChanged(); }
+            get { return newKey; }
+            set { newKey = value; }
+        }
+
+        public async Task VerifyKey()
+        {
+            await _appState?.LogIn(newKey);
         }
     }
 

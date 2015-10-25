@@ -17,8 +17,6 @@ namespace GW2_Win10
 
         public AppState State { get; } = new AppState();
 
-        public Session APISession { get; private set; }
-
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -29,7 +27,6 @@ namespace GW2_Win10
                 Microsoft.ApplicationInsights.WindowsCollectors.Metadata |
                 Microsoft.ApplicationInsights.WindowsCollectors.Session);
             this.InitializeComponent();
-            APISession = new Session(AccountService.Instance.APIKey);
         }
 
         public override Task OnInitializeAsync(IActivatedEventArgs args)
@@ -41,7 +38,7 @@ namespace GW2_Win10
 
         public override Task OnStartAsync(StartKind startKind, IActivatedEventArgs args)
         {
-            NavigationService.Navigate(typeof(MainPage));
+            NavigationService.Navigate(typeof(HomePage));
             return Task.FromResult<object>(null);
         }
     }

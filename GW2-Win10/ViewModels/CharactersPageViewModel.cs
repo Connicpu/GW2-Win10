@@ -5,18 +5,17 @@ namespace GW2_Win10.ViewModels
 {
     public class CharactersPageViewModel : ViewModelBase
     {
-
-        private AccountService _accountService;
+        private AppState _appState;
 
         public CharactersPageViewModel()
         {
             if (!Windows.ApplicationModel.DesignMode.DesignModeEnabled)
-                _accountService = AccountService.Instance;
+                _appState = App.Current.State;
         }
 
         public bool IsLoggedIn
         {
-            get { return _accountService.APIKey.Length != 0; }
+            get { return _appState?.Session != null; }
         }
     }
 }

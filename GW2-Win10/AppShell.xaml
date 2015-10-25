@@ -12,7 +12,7 @@
     <t10:HamburgerMenu x:Name="Menu">
 
         <t10:HamburgerMenu.PrimaryButtons>
-            <t10:HamburgerButtonInfo PageType="pages:MainPage" ClearHistory="True">
+            <t10:HamburgerButtonInfo PageType="pages:HomePage" ClearHistory="True">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <SymbolIcon Symbol="Home" Width="48" Height="48" />
                     <TextBlock Text="Home" Margin="12,0,0,0" VerticalAlignment="Center" />
