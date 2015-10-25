@@ -5,6 +5,7 @@
     xmlns:local="using:GW2_Win10"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:api="using:GW2_Win10.API"
     Loaded="OnLoaded"
     mc:Ignorable="d">
     
@@ -32,7 +33,13 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Border Background="DarkGray" BorderBrush="Gray" Margin="10">
-                                
+                                <StackPanel Margin="10">
+                                    <TextBlock Text="{Binding Path=Name}" FontSize="16" />
+                                    <TextBlock FontSize="14">
+                                        <Run Text="{Binding Path=Gender}" />
+                                        <Run Text="{Binding Path=Race}" />
+                                    </TextBlock>
+                                </StackPanel>
                             </Border>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>

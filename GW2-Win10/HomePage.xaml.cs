@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -46,10 +47,14 @@ namespace GW2_Win10
             Characters = new ObservableCollection<Character>();
             DataContext = this;
 
-            // Load in the characters
-            foreach (var name in await session.Retrieve<Characters>())
+            // Load in the characters (in parallel)
+            var loads = (
+                from name in await session.Retrieve<Characters>()
+                select session.Retrieve<Character>(new {id = name})
+                ).ToList();
+            foreach (var load in loads)
             {
-                Characters.Add(await session.Retrieve<Character>(new { id = name }));
+                Characters.Add(await load);
             }
         }
 
