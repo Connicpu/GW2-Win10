@@ -36,7 +36,7 @@ namespace GW2_Win10
 
             try
             {
-                await (App.Current as App)?.State.LogIn(ApiKey.Text);
+                await App.Current.State.LogIn(ApiKey.Text);
                 Frame.Navigate(typeof(HomePage));
                 Frame.BackStack.Clear();
             }
@@ -57,10 +57,9 @@ namespace GW2_Win10
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            var app = App.Current as App;
-            app?.State.Load();
+            App.Current.State.Load();
 
-            if (app?.State.Session == null) return;
+            if (App.Current.State.Session == null) return;
 
             Frame.Navigate(typeof(HomePage));
             Frame.BackStack.Clear();

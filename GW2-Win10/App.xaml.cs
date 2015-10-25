@@ -14,6 +14,7 @@ namespace GW2_Win10
     /// </summary>
     public sealed partial class App : BootStrapper
     {
+        public new static App Current => (App)BootStrapper.Current;
 
         public AppState State { get; } = new AppState();
 
