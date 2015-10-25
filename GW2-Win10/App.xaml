@@ -3,7 +3,13 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:GW2_Win10"
+    xmlns:converters="using:GW2_Win10.Converters"
     xmlns:t10="using:Template10.Common"
     RequestedTheme="Light">
+
+    <Application.Resources>
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />
+    </Application.Resources>
 
 </t10:BootStrapper>
