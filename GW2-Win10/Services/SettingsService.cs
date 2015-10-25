@@ -22,5 +22,11 @@ namespace GW2_Win10.Services
         {
             _helper = new SettingsHelper();
         }
+
+        public bool SyncOwnCharacters
+        {
+            get { return _helper.Read(nameof(SyncOwnCharacters), true); }
+            set { _helper.Write(nameof(SyncOwnCharacters), value); }
+        }
     }
 }

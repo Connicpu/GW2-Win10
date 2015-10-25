@@ -35,13 +35,6 @@
         </t10:HamburgerMenu.PrimaryButtons>
 
         <t10:HamburgerMenu.SecondaryButtons>
-            <t10:HamburgerButtonInfo PageType="pages:AccountSettings">
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <SymbolIcon Symbol="Contact" Width="48" Height="48" />
-                    <TextBlock Text="Account" Margin="12,0,0,0" VerticalAlignment="Center" />
-                </StackPanel>
-            </t10:HamburgerButtonInfo>
-            
             <t10:HamburgerButtonInfo PageType="pages:Settings">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <SymbolIcon Symbol="Setting" Width="48" Height="48" />

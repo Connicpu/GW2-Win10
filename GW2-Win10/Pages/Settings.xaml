@@ -3,11 +3,32 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:GW2_Win10.Pages"
+    xmlns:vm="using:GW2_Win10.ViewModels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.DataContext>
+        <vm:SettingsPageViewModel />
+    </Page.DataContext>
 
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Pivot>
+            <PivotItem Header="Account" DataContext="{Binding AccountPart}">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock FontSize="26" HorizontalAlignment="Center">Enter your API Key</TextBlock>
+                    <TextBox FontSize="26" MaxWidth="800" 
+                             Margin="30,10" 
+                             FontFamily="Consolas" 
+                             Text="{Binding APIKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                             VerticalAlignment="Center" />
+                </StackPanel>
+            </PivotItem>
+            <PivotItem Header="Sync" DataContext="{Binding SyncPart}">
+                <StackPanel Orientation="Vertical">
+                    <!-- TODO: "Sync my characters" preference -->
+                </StackPanel>
+            </PivotItem>
+        </Pivot>
     </Grid>
 </Page>

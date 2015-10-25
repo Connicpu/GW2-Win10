@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GW2_Win10.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -26,5 +27,7 @@ namespace GW2_Win10.Pages
         {
             this.InitializeComponent();
         }
+
+        public SettingsPageViewModel ViewModel => DataContext as SettingsPageViewModel;
     }
 }
