@@ -1,4 +1,5 @@
-﻿using GW2_Win10.Services;
+﻿using GW2_Win10.API;
+using GW2_Win10.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,30 +18,26 @@ namespace GW2_Win10.ViewModels
     public class AccountPartViewModel : ViewModelBase
     {
         AppState _appState;
-        string newKey;
 
         public AccountPartViewModel()
         {
             if (!Windows.ApplicationModel.DesignMode.DesignModeEnabled)
                 _appState = App.Current.State;
-            newKey = _appState?.Session?.ApiKey;
         }
 
-        public string ApiKey
+        public void Toggled()
         {
-            get { return newKey; }
-            set { newKey = value; }
+            RaisePropertyChanged(nameof(IsLoggedIn));
+            RaisePropertyChanged(nameof(Session));
         }
 
-        public async Task VerifyKey()
-        {
-            await _appState?.LogIn(newKey);
-        }
+        public bool IsLoggedIn => _appState?.Session != null;
+
+        public Session Session => _appState?.Session;
     }
 
     public class SyncPartViewModel : ViewModelBase
     {
-
         SettingsService _service;
 
         public SyncPartViewModel()

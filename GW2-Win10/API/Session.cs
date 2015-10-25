@@ -21,11 +21,6 @@ namespace GW2_Win10.API
             CreateClient();
         }
 
-        public async Task LoadInfo()
-        {
-            KeyInfo = await Retrieve<ApiKeyInfo>();
-        }
-
         public HttpClient Client { get; private set; }
 
         [JsonProperty]
@@ -33,6 +28,43 @@ namespace GW2_Win10.API
 
         [JsonProperty]
         public ApiKeyInfo KeyInfo { get; set; }
+
+        [JsonProperty]
+        public Account Account { get; set; }
+
+        [JsonProperty]
+        public Characters CharacterNames { get; set; }
+
+        [JsonProperty]
+        public List<Character> Characters { get; set; }
+
+        public async Task LoadInfo()
+        {
+            KeyInfo = await Retrieve<ApiKeyInfo>();
+            Account = await Retrieve<Account>();
+        }
+
+        public async Task Refresh()
+        {
+            await LoadInfo();
+
+            try
+            {
+                CharacterNames = await Retrieve<Characters>();
+
+                Characters.Clear();
+                foreach (var name in CharacterNames)
+                {
+                    Characters.Add(await Retrieve<Character>(new { id = name }));
+                }
+            }
+            catch (ApiException)
+            {
+                // You don't have character permission
+                CharacterNames = null;
+                Characters = null;
+            }
+        }
 
         public UriBuilder GetUri(string endpoint)
         {
@@ -47,8 +79,10 @@ namespace GW2_Win10.API
 
         public async Task<T> Retrieve<T>(object args = null) where T : IApiType, new()
         {
-            var endpoint = MakeUri(new T().Endpoint, args);
-            return await DoGet<T>(endpoint);
+            var obj = new T();
+            var endpoint = MakeUri(obj.Endpoint, args);
+            await DoGet(endpoint, obj);
+            return obj;
         }
 
         public async Task<List<T>> RetrieveList<T>(object args = null) where T : IApiListType, new()
@@ -85,6 +119,22 @@ namespace GW2_Win10.API
 
             // Decode the response
             return JsonConvert.DeserializeObject<T>(responseData);
+        }
+
+        private async Task DoGet<T>(Uri api, T obj)
+        {
+            // Request from the server
+            var response = await Client.GetAsync(api);
+
+            // Read the response
+            var responseData = await response.Content.ReadAsStringAsync();
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                throw new ApiException(responseData);
+            }
+
+            // Decode the response
+            JsonConvert.PopulateObject(responseData, obj);
         }
 
         private void CreateClient()

@@ -15,14 +15,22 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Pivot>
             <PivotItem Header="Account" DataContext="{Binding AccountPart}">
-                <StackPanel Orientation="Vertical">
-                    <TextBlock FontSize="26" HorizontalAlignment="Center">Enter your API Key</TextBlock>
-                    <TextBox FontSize="26" MaxWidth="800" 
-                             Margin="30,10" 
-                             FontFamily="Consolas" 
-                             Text="{Binding APIKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                             VerticalAlignment="Center" />
-                </StackPanel>
+                <Grid>
+                    <StackPanel Visibility="{Binding IsLoggedIn, Converter={StaticResource ResourceKey=InverseBooleanToVisibilityConverter}}">
+                        <TextBlock FontSize="26" HorizontalAlignment="Center">Enter your API Key</TextBlock>
+                        <TextBox FontSize="12" x:Name="ApiKey" MaxWidth="800" Margin="30,10" FontFamily="Consolas" />
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button Width="200" Margin="5,10" Click="SignInClick">Sign In</Button>
+                            <Button Width="200" Margin="5,10" Click="CreateNewKey">Get a Key</Button>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Visibility="{Binding IsLoggedIn, Converter={StaticResource ResourceKey=BooleanToVisibilityConverter}}">
+                        <TextBlock FontSize="20" HorizontalAlignment="Center">
+                            You are currently signed in as <Run Text="{Binding Path=Session.Account.Name}" />
+                        </TextBlock>
+                        <Button HorizontalAlignment="Center" Width="200" Margin="10" Click="SignOutClick">Sign Out</Button>
+                    </StackPanel>
+                </Grid>
             </PivotItem>
             <PivotItem Header="Sync" DataContext="{Binding SyncPart}">
                 <StackPanel Orientation="Vertical">
