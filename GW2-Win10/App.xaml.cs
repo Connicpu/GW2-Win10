@@ -1,11 +1,8 @@
-﻿using System;
+﻿using GW2_Win10.Pages;
 using System.Threading.Tasks;
 using Template10.Common;
-using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 
 namespace GW2_Win10
 {

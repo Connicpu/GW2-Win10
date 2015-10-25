@@ -1,0 +1,36 @@
+﻿<Page
+    x:Class="GW2_Win10.Pages.AccountSettings"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GW2_Win10.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:GW2_Win10.ViewModels"
+    xmlns:t10="using:Template10.Controls"
+    mc:Ignorable="d">
+
+    <Page.DataContext>
+        <vm:AccountSettingsPageViewModel />
+    </Page.DataContext>
+    
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Pivot Grid.Row="1">
+            <PivotItem DataContext="{Binding APIKeyPart}" Header="API Key">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock FontSize="26" HorizontalAlignment="Center">Enter your API Key</TextBlock>
+                    <TextBox FontSize="26" MaxWidth="800" 
+                             Margin="30,10" 
+                             FontFamily="Consolas" 
+                             Text="{Binding APIKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                             VerticalAlignment="Center" />
+                </StackPanel>
+            </PivotItem>
+        </Pivot>
+        
+    </Grid>
+</Page>
