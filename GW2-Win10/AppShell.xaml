@@ -1,0 +1,40 @@
+﻿<Page
+    x:Class="GW2_Win10.AppShell"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GW2_Win10"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:t10="using:Template10.Controls"
+    xmlns:pages="using:GW2_Win10.Pages"
+    mc:Ignorable="d">
+
+    <t10:HamburgerMenu x:Name="Menu">
+
+        <t10:HamburgerMenu.PrimaryButtons>
+            <t10:HamburgerButtonInfo PageType="local:MainPage" ClearHistory="True">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <SymbolIcon Symbol="Home" Width="48" Height="48" />
+                    <TextBlock Text="Home" Margin="12,0,0,0" VerticalAlignment="Center" />
+                </StackPanel>
+            </t10:HamburgerButtonInfo>
+
+            <t10:HamburgerButtonInfo PageType="pages:Map" ClearHistory="True">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <SymbolIcon Symbol="Map" Width="48" Height="48" />
+                    <TextBlock Text="Map" Margin="12,0,0,0" VerticalAlignment="Center" />
+                </StackPanel>
+            </t10:HamburgerButtonInfo>
+        </t10:HamburgerMenu.PrimaryButtons>
+
+        <t10:HamburgerMenu.SecondaryButtons>
+            <t10:HamburgerButtonInfo PageType="pages:Settings">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <SymbolIcon Symbol="Setting" Width="48" Height="48" />
+                    <TextBlock Text="Settings" Margin="12,0,0,0" VerticalAlignment="Center" />
+                </StackPanel>
+            </t10:HamburgerButtonInfo>
+        </t10:HamburgerMenu.SecondaryButtons>
+        
+    </t10:HamburgerMenu>
+</Page>

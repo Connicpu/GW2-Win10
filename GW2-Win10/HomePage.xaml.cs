@@ -35,7 +35,7 @@ namespace GW2_Win10
 
         private async void OnLoaded(object sender, RoutedEventArgs e)
         {
-            var session = App.Current.State.Session;
+            var session = (App.Current as App)?.State.Session;
             if (session == null)
             {
                 Frame.Navigate(typeof(MainPage));
@@ -60,7 +60,7 @@ namespace GW2_Win10
 
         private void LogOut(object sender, RoutedEventArgs e)
         {
-            App.Current.State.LogOut();
+            (App.Current as App)?.State.LogOut();
             Frame.Navigate(typeof(MainPage));
             Frame.BackStack.Clear();
         }
