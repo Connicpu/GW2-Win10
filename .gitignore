@@ -194,3 +194,9 @@ FakesAssemblies/
 
 # Visual Studio 6 workspace options file
 *.opt
+
+# I have no clue what this is, but it dies tonight
+GW2-Win10/null
+
+# NuGet's targets file shouldn't be checked in
+*.nuget.targets
