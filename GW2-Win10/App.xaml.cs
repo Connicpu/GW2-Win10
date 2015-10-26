@@ -28,7 +28,7 @@ namespace GW2_Win10
                 Microsoft.ApplicationInsights.WindowsCollectors.Session);
             this.InitializeComponent();
 
-            State.Load();
+            State.Load().Wait();
         }
 
         public override Task OnInitializeAsync(IActivatedEventArgs args)
