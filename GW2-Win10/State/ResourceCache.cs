@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.Storage;
+using Windows.UI.Xaml;
 using GW2_Win10.API;
 using GW2_Win10.Helpers;
+using Newtonsoft.Json;
 
 namespace GW2_Win10.State
 {
@@ -34,7 +38,7 @@ namespace GW2_Win10.State
                     {
                         return caches[cacheKey];
                     }
-                    
+
                     var type = typeof(ResourceCache<int, Item>).GetTypeInfo().GetGenericTypeDefinition();
                     var generic = type.MakeGenericType(key, value);
                     return caches[cacheKey] = generic.GetConstructor(new Type[0]).Invoke(new object[0]);
@@ -44,13 +48,12 @@ namespace GW2_Win10.State
 
         public static ResourceCache<TKey, TValue> GetCache<TKey, TValue>() where TValue : class, IApiType, new()
         {
-            return (ResourceCache<TKey, TValue>) GetCache(typeof(TKey), typeof(TValue));
+            return (ResourceCache<TKey, TValue>)GetCache(typeof(TKey), typeof(TValue));
         }
     }
 
     public class ResourceCache<TKey, TValue> where TValue : class, IApiType, new()
     {
-        // TODO: EF-backed local storage cache
         private readonly RwLock<Dictionary<TKey, Task<TValue>>> _memCache =
             new RwLock<Dictionary<TKey, Task<TValue>>>();
 
@@ -86,12 +89,47 @@ namespace GW2_Win10.State
         {
             try
             {
-                return await session.Retrieve<TValue>(new {id});
+                return await RetrieveFromStorage(session, id);
             }
             catch
             {
                 return new TValue();
             }
+        }
+
+        private static async Task<TValue> RetrieveFromStorage(Session session, TKey id)
+        {
+            try
+            {
+                var temp = ApplicationData.Current.LocalCacheFolder;
+                var folder = await temp.GetFolderAsync(typeof(TValue).Name);
+                var file = await folder.GetFileAsync($"{id}.json");
+                using (var stream = await file.OpenStreamForReadAsync())
+                using (var reader = new StreamReader(stream, Encoding.UTF8))
+                {
+                    var data = await reader.ReadToEndAsync();
+                    return JsonConvert.DeserializeObject<TValue>(data);
+                }
+            }
+            catch
+            {
+                return await RetrieveAndSave(session, id);
+            }
+        }
+
+        private static async Task<TValue> RetrieveAndSave(Session session, TKey id)
+        {
+            var value = await session.Retrieve<TValue>(new { id });
+            var temp = ApplicationData.Current.LocalCacheFolder;
+            var folder = await temp.CreateFolderAsync(typeof(TValue).Name, CreationCollisionOption.OpenIfExists);
+            var file = await folder.CreateFileAsync($"{id}.json", CreationCollisionOption.ReplaceExisting);
+            using (var stream = await file.OpenStreamForWriteAsync())
+            using (var writer = new StreamWriter(stream, Encoding.UTF8))
+            {
+                var data = JsonConvert.SerializeObject(value);
+                await writer.WriteAsync(data);
+            }
+            return value;
         }
     }
 }
