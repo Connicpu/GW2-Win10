@@ -58,10 +58,14 @@ namespace GW2_Win10.Pages
             ((Button)sender).IsEnabled = true;
         }
 
-        private void SignOutClick(object sender, RoutedEventArgs e)
+        private async void SignOutClick(object sender, RoutedEventArgs e)
         {
-            App.Current.State.LogOut();
+            ((Button) sender).IsEnabled = false;
+
+            await App.Current.State.LogOut();
             ViewModel.AccountPart.Toggled();
+
+            ((Button) sender).IsEnabled = true;
         }
 
         private async void CreateNewKey(object sender, RoutedEventArgs e)

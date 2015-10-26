@@ -1,6 +1,7 @@
 ﻿using GW2_Win10.ViewModels;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Documents;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -20,11 +21,16 @@ namespace GW2_Win10.Pages
 
         private async void OnLoad(object sender, RoutedEventArgs args)
         {
-            if (ViewModel?.AccountPart?.Session?.CharacterNames == null)
-            {
-                await App.Current.State.Session.Refresh();
-                App.Current.State.Save();
-            }
+            if (ViewModel?.AccountPart?.Session == null) return;
+            if (ViewModel.AccountPart.Session.CharacterNames != null) return;
+
+            await App.Current.State.Session.Refresh();
+            await App.Current.State.Save();
+        }
+
+        private void GoToSignin(Hyperlink sender, HyperlinkClickEventArgs args)
+        {
+            Frame.Navigate(typeof(Settings));
         }
     }
 }

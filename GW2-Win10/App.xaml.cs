@@ -26,7 +26,7 @@ namespace GW2_Win10
             Microsoft.ApplicationInsights.WindowsAppInitializer.InitializeAsync(
                 Microsoft.ApplicationInsights.WindowsCollectors.Metadata |
                 Microsoft.ApplicationInsights.WindowsCollectors.Session);
-            this.InitializeComponent();
+            InitializeComponent();
 
             State.Load().Wait();
         }
