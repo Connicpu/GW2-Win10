@@ -10,6 +10,8 @@
     <Application.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />
+        <converters:NotNullToVisibilityConverter x:Key="NotNullToVisibilityConverter" />
+        <converters:AsyncResourceConverter x:Key="AsyncResourceConverter" />
 
         <!-- 
             Pivot may be the worst control ever. To style the header background, you have to

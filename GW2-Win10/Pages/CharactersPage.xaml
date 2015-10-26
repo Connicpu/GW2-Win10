@@ -25,7 +25,7 @@
                         VisualStateNarrowMinWidth="0"
                         VisualStateNormalMinWidth="520"/>
 
-        <StackPanel Orientation="Vertical" VerticalAlignment="Center" Visibility="{Binding Path=AccountPart.IsLoggedIn, Converter={StaticResource ResourceKey=InverseBooleanToVisibilityConverter}}">
+        <StackPanel Grid.Row="1" Orientation="Vertical" VerticalAlignment="Center" Visibility="{Binding Path=AccountPart.IsLoggedIn, Converter={StaticResource ResourceKey=InverseBooleanToVisibilityConverter}}">
             <TextBlock FontSize="26" HorizontalAlignment="Center">
                 <Hyperlink Click="GoToSignin">Sign in</Hyperlink> to see your characters
             </TextBlock>
@@ -40,7 +40,13 @@
 
             <Grid Visibility="{Binding Path=CanViewCharacters, Converter={StaticResource ResourceKey=BooleanToVisibilityConverter}}">
                 <ItemsControl ItemsSource="{Binding Path=AccountPart.Session.Characters}">
-                    
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="10" Background="Salmon">
+                                <Button Content="{Binding Path=Name}" Click="GoToCharacter" />
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </Grid>
         </Grid>

@@ -29,5 +29,7 @@ namespace GW2_Win10.API
 
         // Present with the `inventories` scope
         public List<Bag> Bags { get; set; }
+
+        public IEnumerable<Bag> NonNullBags => Bags.Where(bag => bag != null);
     }
 }

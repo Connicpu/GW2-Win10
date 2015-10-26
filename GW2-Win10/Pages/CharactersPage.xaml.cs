@@ -2,6 +2,7 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
+using GW2_Win10.API;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -31,6 +32,13 @@ namespace GW2_Win10.Pages
         private void GoToSignin(Hyperlink sender, HyperlinkClickEventArgs args)
         {
             Frame.Navigate(typeof(Settings));
+        }
+
+        private void GoToCharacter(object sender, RoutedEventArgs e)
+        {
+            var button = (Button) sender;
+            var character = (Character) button.DataContext;
+            Frame.Navigate(typeof(CharacterPage), character);
         }
     }
 }
