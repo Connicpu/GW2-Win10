@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:GW2_Win10.Pages"
     xmlns:vm="using:GW2_Win10.ViewModels"
+    xmlns:t10="using:Template10.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
@@ -13,7 +14,18 @@
     </Page.DataContext>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Pivot>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <t10:PageHeader BackButtonVisibility="Collapsed" Text="Settings" Padding="12,0,0,0"
+                        VisualStateNarrowMinWidth="0"
+                        VisualStateNormalMinWidth="520"/>
+
+        <Pivot Grid.Row="1" Style="{StaticResource PivotHeaderStyle}" FontSize="18">
+
             <PivotItem Header="Account" DataContext="{Binding AccountPart}">
                 <Grid>
                     <StackPanel Visibility="{Binding IsLoggedIn, Converter={StaticResource ResourceKey=InverseBooleanToVisibilityConverter}}">

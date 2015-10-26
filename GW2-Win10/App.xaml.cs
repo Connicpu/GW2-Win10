@@ -28,6 +28,8 @@ namespace GW2_Win10
                 Microsoft.ApplicationInsights.WindowsCollectors.Session);
             InitializeComponent();
 
+            this.InitializeComponent();
+            this.ShowShellBackButton = true;
             State.Load().Wait();
         }
 

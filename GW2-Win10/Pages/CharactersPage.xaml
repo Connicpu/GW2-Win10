@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:GW2_Win10.Pages"
     xmlns:vm="using:GW2_Win10.ViewModels"
+    xmlns:t10="using:Template10.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Loaded="OnLoad"
@@ -14,13 +15,23 @@
     </Page.DataContext>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <t10:PageHeader BackButtonVisibility="Collapsed" Text="Characters" Padding="12,0,0,0"
+                        VisualStateNarrowMinWidth="0"
+                        VisualStateNormalMinWidth="520"/>
+
         <StackPanel Orientation="Vertical" VerticalAlignment="Center" Visibility="{Binding Path=AccountPart.IsLoggedIn, Converter={StaticResource ResourceKey=InverseBooleanToVisibilityConverter}}">
             <TextBlock FontSize="26" HorizontalAlignment="Center">
                 <Hyperlink Click="GoToSignin">Sign in</Hyperlink> to see your characters
             </TextBlock>
         </StackPanel>
 
-        <Grid Visibility="{Binding Path=AccountPart.IsLoggedIn, Converter={StaticResource ResourceKey=BooleanToVisibilityConverter}}">
+        <Grid Grid.Row="1" Visibility="{Binding Path=AccountPart.IsLoggedIn, Converter={StaticResource ResourceKey=BooleanToVisibilityConverter}}">
             <StackPanel VerticalAlignment="Center" Visibility="{Binding Path=CanViewCharacters, Converter={StaticResource ResourceKey=InverseBooleanToVisibilityConverter}}">
                 <TextBlock FontSize="26" HorizontalAlignment="Center">
                     The API Key you gave us doesn't let us see your characters
