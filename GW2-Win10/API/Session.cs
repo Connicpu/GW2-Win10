@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Collections.ObjectModel;
 
 namespace GW2_Win10.API
 {
@@ -36,7 +37,7 @@ namespace GW2_Win10.API
         public Characters CharacterNames { get; set; }
 
         [JsonProperty]
-        public List<Character> Characters { get; set; }
+        public ObservableCollection<Character> Characters { get; set; } = new ObservableCollection<Character>();
 
         public async Task LoadInfo()
         {
@@ -52,7 +53,7 @@ namespace GW2_Win10.API
             {
                 CharacterNames = await Retrieve<Characters>();
 
-                Characters.Clear();
+                (Characters = Characters ?? new ObservableCollection<Character>()).Clear();
                 foreach (var name in CharacterNames)
                 {
                     Characters.Add(await Retrieve<Character>(new { id = name }));
@@ -64,6 +65,11 @@ namespace GW2_Win10.API
                 CharacterNames = null;
                 Characters = null;
             }
+        }
+
+        public bool HasPermission(string perm)
+        {
+            return KeyInfo?.Permissions?.Contains(perm) ?? false;
         }
 
         public UriBuilder GetUri(string endpoint)

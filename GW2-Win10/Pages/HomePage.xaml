@@ -6,7 +6,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:api="using:GW2_Win10.API"
+    xmlns:vm="using:GW2_Win10.ViewModels"
     mc:Ignorable="d">
+
+    <Page.DataContext>
+        <vm:HomePageViewModel />
+    </Page.DataContext>
     
     <ScrollViewer Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid>
@@ -18,6 +23,18 @@
                        TextWrapping="Wrap" TextAlignment="Center">
                 Welcome to your Guild Wars 2 Assistant!
             </TextBlock>
+
+            <StackPanel Grid.Row="1" Visibility="{Binding Path=AccountPart.IsLoggedIn, Converter={StaticResource ResourceKey=InverseBooleanToVisibilityConverter}}">
+                <TextBlock FontSize="20" HorizontalAlignment="Center">
+                    You are not currently <Hyperlink Click="GoToSignin">signed in</Hyperlink>
+                </TextBlock>
+            </StackPanel>
+            <StackPanel Grid.Row="1" Visibility="{Binding Path=AccountPart.IsLoggedIn, Converter={StaticResource ResourceKey=BooleanToVisibilityConverter}}">
+                <TextBlock FontSize="20" HorizontalAlignment="Center">
+                    You are currently <Hyperlink Click="GoToSignin">signed in</Hyperlink> as
+                    <Run Text="{Binding Path=AccountPart.Session.Account.Name}" />
+                </TextBlock>
+            </StackPanel>
         </Grid>
     </ScrollViewer>
 </Page>

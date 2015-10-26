@@ -17,5 +17,10 @@ namespace GW2_Win10.Pages
         {
             InitializeComponent();
         }
+
+        private void GoToSignin(object sender, RoutedEventArgs args)
+        {
+            Frame.Navigate(typeof(Settings));
+        }
     }
 }

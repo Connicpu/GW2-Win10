@@ -19,11 +19,22 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Vertical" VerticalAlignment="Center" Visibility="{Binding IsLoggedIn, Converter={StaticResource ResourceKey=InverseBooleanToVisibilityConverter}}">
+        <StackPanel Orientation="Vertical" VerticalAlignment="Center" Visibility="{Binding Path=AccountPart.IsLoggedIn, Converter={StaticResource ResourceKey=InverseBooleanToVisibilityConverter}}">
             <TextBlock Text="Login to see your characters" FontSize="26" HorizontalAlignment="Center" />
         </StackPanel>
 
-        <GridView Visibility="{Binding IsLoggedIn, Converter={StaticResource ResourceKey=BooleanToVisibilityConverter}}" Grid.Row="1"></GridView>
-        
+        <Grid Visibility="{Binding Path=AccountPart.IsLoggedIn, Converter={StaticResource ResourceKey=BooleanToVisibilityConverter}}" Grid.Row="1">
+            <StackPanel Orientation="Vertical" VerticalAlignment="Center" Visibility="{Binding Path=AccountPart.CanViewCharacters, Converter={StaticResource ResourceKey=InverseBooleanToVisibilityConverter}}">
+                <TextBlock FontSize="26" HorizontalAlignment="Center">
+                    The API Key you gave us doesn't let us see your characters
+                </TextBlock>
+            </StackPanel>
+
+            <Grid Visibility="{Binding Path=AccountPart.CanViewCharacters, Converter={StaticResource ResourceKey=BooleanToVisibilityConverter}}" Grid.Row="1">
+                <ItemsControl ItemsSource="{Binding Path=AccountPart.Session.Characters}">
+                    
+                </ItemsControl>
+            </Grid>
+        </Grid>
     </Grid>
 </Page>
