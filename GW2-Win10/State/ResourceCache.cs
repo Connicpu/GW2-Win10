@@ -12,6 +12,7 @@ using Windows.UI.Xaml;
 using GW2_Win10.API;
 using GW2_Win10.Helpers;
 using Newtonsoft.Json;
+using Windows.Storage.Search;
 
 namespace GW2_Win10.State
 {
@@ -99,22 +100,33 @@ namespace GW2_Win10.State
 
         private static async Task<TValue> RetrieveFromStorage(Session session, TKey id)
         {
-            try
+            for (;;)
             {
                 var temp = ApplicationData.Current.LocalCacheFolder;
-                var folder = await temp.GetFolderAsync(typeof(TValue).Name);
-                var file = await folder.GetFileAsync($"{id}.json");
-                using (var stream = await file.OpenStreamForReadAsync())
-                using (var reader = new StreamReader(stream, Encoding.UTF8))
+                var folder = await temp.CreateFolderAsync(typeof(TValue).Name, CreationCollisionOption.OpenIfExists);
+                var item = await folder.TryGetItemAsync($"{id}.json");
+                if (item == null || !item.IsOfType(StorageItemTypes.File))
+                    break;
+
+                try
                 {
-                    var data = await reader.ReadToEndAsync();
-                    return JsonConvert.DeserializeObject<TValue>(data);
+                    var file = (StorageFile)item;
+                    using (var stream = await file.OpenStreamForReadAsync())
+                    using (var reader = new StreamReader(stream, Encoding.UTF8))
+                    {
+                        var data = await reader.ReadToEndAsync();
+                        return JsonConvert.DeserializeObject<TValue>(data);
+                    }
                 }
+                catch
+                {
+                    await item.DeleteAsync();
+                }
+
+                break;
             }
-            catch
-            {
-                return await RetrieveAndSave(session, id);
-            }
+
+            return await RetrieveAndSave(session, id);
         }
 
         private static async Task<TValue> RetrieveAndSave(Session session, TKey id)
