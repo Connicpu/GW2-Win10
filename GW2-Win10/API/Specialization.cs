@@ -9,6 +9,6 @@ namespace GW2_Win10.API
     public class Specialization
     {
         public int Id { get; set; }
-        public List<int> Traits { get; set; } 
+        public List<int?> Traits { get; set; } 
     }
 }
