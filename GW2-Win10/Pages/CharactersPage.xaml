@@ -13,24 +13,18 @@
     </Page.DataContext>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-
         <StackPanel Orientation="Vertical" VerticalAlignment="Center" Visibility="{Binding Path=AccountPart.IsLoggedIn, Converter={StaticResource ResourceKey=InverseBooleanToVisibilityConverter}}">
             <TextBlock Text="Login to see your characters" FontSize="26" HorizontalAlignment="Center" />
         </StackPanel>
 
-        <Grid Visibility="{Binding Path=AccountPart.IsLoggedIn, Converter={StaticResource ResourceKey=BooleanToVisibilityConverter}}" Grid.Row="1">
-            <StackPanel Orientation="Vertical" VerticalAlignment="Center" Visibility="{Binding Path=AccountPart.CanViewCharacters, Converter={StaticResource ResourceKey=InverseBooleanToVisibilityConverter}}">
+        <Grid Visibility="{Binding Path=AccountPart.IsLoggedIn, Converter={StaticResource ResourceKey=BooleanToVisibilityConverter}}">
+            <StackPanel VerticalAlignment="Center" Visibility="{Binding Path=CanViewCharacters, Converter={StaticResource ResourceKey=InverseBooleanToVisibilityConverter}}">
                 <TextBlock FontSize="26" HorizontalAlignment="Center">
                     The API Key you gave us doesn't let us see your characters
                 </TextBlock>
             </StackPanel>
 
-            <Grid Visibility="{Binding Path=AccountPart.CanViewCharacters, Converter={StaticResource ResourceKey=BooleanToVisibilityConverter}}" Grid.Row="1">
+            <Grid Visibility="{Binding Path=CanViewCharacters, Converter={StaticResource ResourceKey=BooleanToVisibilityConverter}}">
                 <ItemsControl ItemsSource="{Binding Path=AccountPart.Session.Characters}">
                     
                 </ItemsControl>
